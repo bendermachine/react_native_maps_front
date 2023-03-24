@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import SettingsScreen from "./SettingsScreen";
 import MapScreen from "./MapScreen";
-import {AddScreen} from "./AddScreen";
+import AddScreen from "./AddScreen";
 import FeedScreen from "./FeedScreen";
 import { WebView } from 'react-native-webview';
 const Tab = createBottomTabNavigator();

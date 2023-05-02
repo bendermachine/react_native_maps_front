@@ -1,10 +1,26 @@
-import {SafeAreaView, StyleSheet,TextInput, Text, View, Keyboard,  TouchableWithoutFeedback,Button,Image, Platform,TouchableOpacity  } from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    TextInput,
+    Text,
+    View,
+    Keyboard,
+    TouchableWithoutFeedback,
+    Button,
+    Image,
+    Platform,
+    TouchableOpacity,
+    ScrollView,
+    StatusBar
+} from 'react-native';
 import * as React from "react";
-import {useCallback, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import {Picker} from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+
+
 
 const HideKeyboard = ({ children }) => (
     <TouchableWithoutFeedback
@@ -17,8 +33,8 @@ const HideKeyboard = ({ children }) => (
 
 export default function AddScreen() {
     const [selectedLanguage, setSelectedLanguage] = useState();
-    const [name, setName] = useState('shaun');
-    const [age, setAge] = useState('30');
+    const [desc, setDesc] = useState('');
+    const inputRef = useRef(null);
     const [fontsLoaded] = useFonts({
         // 'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
         'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
@@ -39,6 +55,11 @@ export default function AddScreen() {
             setImage(result.assets[0].uri);
         }
     };
+    const [showPicker, setShowPicker] = useState(false);
+
+    const togglePicker = () => {
+        setShowPicker(!showPicker);
+    };
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -46,46 +67,77 @@ export default function AddScreen() {
         }
     }, [fontsLoaded]);
 
+    function descCheck() {
+        console.log(desc)
+        if (desc === "") {
+            // console.log("зaшло")
+            alert('Заполните описание')
+        }
+        if (!image) {
+            console.log("нет фото")
+        }
+        // setDesc('')
+        inputRef.current.clear();
+    //     unlink(image).then(() => console.log('Файл успешно удален'))
+    // .catch(error => console.error(error));
+        console.log(desc)
+        setImage(null)
+        setShowPicker(false)
+
+
+    }
+
+
+
+
     return (
         <HideKeyboard>
-            <View style={styles.container} onLayout={onLayoutRootView}>
+            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollView} onLayout={onLayoutRootView}>
                 <Text style={{fontFamily: 'Montserrat-Bold', fontSize: 27}}>Сообщить о нарушении</Text>
-                <Picker style={styles.picker}
-                        selectedValue={selectedLanguage}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedLanguage(itemValue)
-                        }>
-                    <Picker.Item label="Гололед" value="Гололед" />
-                    <Picker.Item label="Невывезенный мусор" value="Невывезенный мусор" />
-                    <Picker.Item label="Неубранный снег" value="Неубранный снег" />
-                    <Picker.Item label="Акт вандализма" value="Акт вандализма" />
-                    <Picker.Item label="Нарушение в конструкции строения" value="Нарушение в конструкции строения"  />
+                <TouchableOpacity onPress={togglePicker} style={styles.typeButton}>
+                <Text style={styles.typeButton}>Выбрать тип нарушения </Text>
+                </TouchableOpacity>
+
+                {showPicker && (
+                    <Picker style={styles.picker}
+                            selectedValue={selectedLanguage}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedLanguage(itemValue)
+                            }>
+                        <Picker.Item label="Гололед" value="Гололед"/>
+                        <Picker.Item label="Невывезенный мусор" value="Невывезенный мусор"/>
+                        <Picker.Item label="Неубранный снег" value="Неубранный снег"/>
+                        <Picker.Item label="Акт вандализма" value="Акт вандализма"/>
+                        <Picker.Item label="Нарушение в конструкции строения" value="Нарушение в конструкции строения"/>
 
 
-                </Picker>
-                {/*<TextInput*/}
-                {/*    placeholder='Введите загловок'*/}
-                {/*    style={styles.inputTitle}*/}
-                {/*    onChangeText={(value) => setName(value)}/>*/}
-                {/*<Text style={styles.result}>{selectedLanguage}</Text>*/}
+                    </Picker>
+                )
+                }
+                <Text style={styles.result}>{selectedLanguage}</Text>
 
                 <TextInput
                     multiline
                     numberOfLines={6}
+                    ref={inputRef}
                     placeholder='Опишите проблему подробнее'
                     style={styles.inputDescription}
-                    onChangeText={(value) => setAge(value)}/>
+                    onChangeText={(value) => setDesc(value)}
+                />
 
-                <Text style={styles.result}>name: {name}, age: {age}</Text>
 
-            {/*<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>*/}
+
                 <TouchableOpacity style={styles.button} onPress={pickImage}>
-                    {/*<Image style={styles.imageStyle}  source={require('./assets/pinIcon.png')} />*/}
                     <Text style={styles.buttonText}>Прикрепить фото</Text>
                 </TouchableOpacity>
-                {image && <Image source={{ uri: image }} />}
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 150,margin:10}} />}
+                <TouchableOpacity style={styles.buttonSend} onPress={descCheck} >
+                    {/*<Image style={styles.imageStyle}  source={require('./assets/pinIcon.png')} />*/}
+                    <Text style={styles.buttonSend}>Отправить</Text>
+                </TouchableOpacity>
+            </ScrollView>
             </View>
-
         </HideKeyboard>
     );
 
@@ -96,7 +148,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        // justifyContent: 'center',
+
+
+
+    },
+    scrollView:{
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        marginHorizontal: 20,
     },
     inputTitle: {
         justifyContent:'center',
@@ -108,13 +167,19 @@ const styles = StyleSheet.create({
         // fontFamily:'mt-light',
         width: 300,
     },
+    result:{
+        fontSize:16,
+        marginBottom:5,
+        // fontWeight:'bold',
+        // textDecorationStyle:'double'
+    },
     inputDescription: {
 
         justifyContent: 'center',
         borderWidth: 1,
         borderRadius:15,
         borderColor: 'rgba(93,85,85,0.24)',
-        marginTop:25,
+        marginTop:0,
         padding: 8,
         margin: 10,
         // fontFamily:'mt-light',
@@ -132,11 +197,9 @@ const styles = StyleSheet.create({
     },
     picker:{
         justifyContent:'center',
-        marginTop: -10,
+        marginTop: 0,
         width:300,
         backgroundColor:'#ffffff',
-
-
 
     },
     button:{
@@ -144,14 +207,27 @@ const styles = StyleSheet.create({
         borderRadius:20,
         padding: 10,
         height:40,
-        width:250,
+        width:200,
 
-        backgroundColor: 'rgba(93,85,85,0.24)'
+        backgroundColor: '#D9D9D9'
     },
     buttonText:{
-        marginLeft:54
+        marginLeft:23,
+        fontSize:16
+    },
+    typeButton: {
+        margin:10,
+        borderRadius:20,
+        backgroundColor: '#D9D9D9',
+        fontSize:16
+    },
+    buttonSend:{
+        // paddingTop:10,
+        borderRadius:20,
+        backgroundColor: '#D9D9D9',
+        margin:10,
+        fontSize:16
     }
-
 });
 
 

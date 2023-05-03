@@ -34,7 +34,9 @@ const HideKeyboard = ({ children }) => (
 export default function AddScreen() {
     const [selectedLanguage, setSelectedLanguage] = useState();
     const [desc, setDesc] = useState('');
+    const [address,setAddress] = useState('')
     const inputRef = useRef(null);
+    const inputRef2 = useRef(null);
     const [fontsLoaded] = useFonts({
         // 'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
         'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
@@ -76,10 +78,9 @@ export default function AddScreen() {
         if (!image) {
             console.log("нет фото")
         }
-        // setDesc('')
+
         inputRef.current.clear();
-    //     unlink(image).then(() => console.log('Файл успешно удален'))
-    // .catch(error => console.error(error));
+        inputRef2.current.clear();
         console.log(desc)
         setImage(null)
         setShowPicker(false)
@@ -124,6 +125,14 @@ export default function AddScreen() {
                     placeholder='Опишите проблему подробнее'
                     style={styles.inputDescription}
                     onChangeText={(value) => setDesc(value)}
+                />
+                <TextInput
+
+                    numberOfLines={2}
+                    ref={inputRef2}
+                    placeholder='Введите адрес'
+                    style={styles.inputAddress}
+                    onChangeText={(value) => setAddress(value)}
                 />
 
 
@@ -177,7 +186,7 @@ const styles = StyleSheet.create({
 
         justifyContent: 'center',
         borderWidth: 1,
-        borderRadius:15,
+        borderRadius:20,
         borderColor: 'rgba(93,85,85,0.24)',
         marginTop:0,
         padding: 8,
@@ -227,6 +236,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#D9D9D9',
         margin:10,
         fontSize:16
+    },
+    inputAddress: {
+        borderWidth:1,
+        borderRadius:20,
+        borderColor: 'rgba(93,85,85,0.24)',
+        marginTop:0,
+        padding: 8,
+        margin: 10,
+        // fontFamily:'mt-light',
+        width: 300,
+        height:40
     }
 });
 

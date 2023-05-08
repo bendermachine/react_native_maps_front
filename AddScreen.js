@@ -37,10 +37,10 @@ export default function AddScreen() {
     const [address,setAddress] = useState('')
     const inputRef = useRef(null);
     const inputRef2 = useRef(null);
-    const [fontsLoaded] = useFonts({
-        // 'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
-        'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
-    });
+    // const [fontsLoaded] = useFonts({
+    //     // 'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
+    //     'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+    // });
     const [image, setImage] = useState(null);
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -63,11 +63,11 @@ export default function AddScreen() {
         setShowPicker(!showPicker);
     };
 
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
+    // const onLayoutRootView = useCallback(async () => {
+    //     if (fontsLoaded) {
+    //         await SplashScreen.hideAsync();
+    //     }
+    // }, [fontsLoaded]);
 
     function descCheck() {
         console.log(desc)
@@ -94,7 +94,7 @@ export default function AddScreen() {
     return (
         <HideKeyboard>
             <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollView} onLayout={onLayoutRootView}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <Text style={{fontFamily: 'Montserrat-Bold', fontSize: 27}}>Сообщить о нарушении</Text>
                 <TouchableOpacity onPress={togglePicker} style={styles.typeButton}>
                 <Text style={styles.typeButton}>Выбрать тип нарушения </Text>
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     },
     title:{
         justifyContent:'center',
-        fontWeight:'bold',
+        // fontWeight:'bold',
         // fontFamily:'mt-light',
         fontSize:30,
         marginTop:30,

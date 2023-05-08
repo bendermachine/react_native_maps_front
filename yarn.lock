@@ -1859,6 +1859,11 @@
   resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.9.tgz"
   integrity sha512-Bo1yIliSxDuCp42Q1CXNo+DAk8NfqTp/eQI/6kkzsTit/k1LWYYYDhiZd7AO9113IuXbHb7PyJwyqprFMPSB/A==
 
+"@react-native-segmented-control/segmented-control@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@react-native-segmented-control/segmented-control/-/segmented-control-2.4.1.tgz#ea612c8b12bfea7712c7ea456b7b98dfc6748485"
+  integrity sha512-c8Q7TP14CD6vJ38VO5SWoIcxfwLPIz/4zRKJnJOJ0xKkMxkrUu089m86Y0dSvo+T3c1NQyvBFRtKWrPqbqG6tg==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"

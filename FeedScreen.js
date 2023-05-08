@@ -1,6 +1,6 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View, useColorScheme, Image, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, useColorScheme, Image, TouchableOpacity, Modal} from 'react-native';
 import {AntDesign } from "@expo/vector-icons";
 
 export default function FeedScreen()
@@ -9,6 +9,7 @@ export default function FeedScreen()
     const [textColor, setTextColor] = useState('#000');
     const [value, setValue] = useState('Unselected');
     const [selectedIndex, setSelectedIndex] = useState(undefined);
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         setTextColor(colorScheme === 'dark' ? '#FFF' : '#000');
@@ -40,7 +41,7 @@ export default function FeedScreen()
             <View style={styles.segmentSection}>
                 <SegmentedControl values={['Акутальные', 'Все']} selectedIndex={0} />
             </View>
-            <TouchableOpacity style={styles.shadow}>
+            <TouchableOpacity style={styles.shadow} onPress={() => setModalVisible(true)}>
             <View style={styles.report}>
                 <Image style={styles.image}
                        source = {require('./assets/snow_img.png')}/>
@@ -57,7 +58,22 @@ export default function FeedScreen()
 
             </View>
             </TouchableOpacity>
-
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        alert('Modal has been closed.');
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <View style={styles.сenteredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Hello World!</Text>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
         </ScrollView>
     );
 };
@@ -133,5 +149,48 @@ const styles = StyleSheet.create(
             color:'rgba(53,145,53,0.71)'
             // width:200,
         },
-
+        сenteredView: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 22,
+        },
+        modalView: {
+            margin: 20,
+            backgroundColor: 'white',
+            borderRadius: 20,
+            padding: 35,
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        button: {
+            borderRadius: 20,
+            padding: 10,
+            elevation: 2,
+        },
+        buttonOpen: {
+            backgroundColor: '#F194FF',
+        },
+        buttonClose: {
+            backgroundColor: '#2196F3',
+        },
+        textStyle: {
+            color: 'white',
+            fontWeight: 'bold',
+            textAlign: 'center',
+        },
+        modalText: {
+            marginBottom: 15,
+            textAlign: 'center',
+        },
     });
+
+
+
